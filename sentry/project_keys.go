@@ -67,7 +67,7 @@ func (s *ProjectKeysService) List(ctx context.Context, organizationSlug string, 
 // Return a client key bound to a project.
 // https://docs.sentry.io/api/projects/retrieve-a-client-key/
 func (s *ProjectKeysService) Get(ctx context.Context, organizationSlug string, projectSlug string, keyID string) (*ProjectKey, *Response, error) {
-	u := fmt.Sprintf("0/projects/%v/%v/keys/%s", organizationSlug, projectSlug, keyID)
+	u := fmt.Sprintf("0/projects/%v/%v/keys/%s/", organizationSlug, projectSlug, keyID)
 	req, err := s.client.NewRequest("GET", u, nil)
 	if err != nil {
 		return nil, nil, err
