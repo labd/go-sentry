@@ -18,7 +18,7 @@ func TestProjectKeysService_List(t *testing.T) {
 		assertMethod(t, "GET", r)
 		w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Link", "</api/0/projects/the-interstellar-jurisdiction/pump-station/keys/?&cursor=0:0:1>; rel=\"previous\"; results=\"true\"; cursor=\"0:0:1\", </api/0/projects/the-interstellar-jurisdiction/pump-station/keys/?&cursor=1584513610301:0:1>; rel=\"next\"; results=\"false\"; cursor=\"1584513610301:0:1\"")
-		fmt.Fprint(w, `[{
+		_, _ = fmt.Fprint(w, `[{
 			"browserSdk": {
 				"choices": [
 					[
@@ -83,10 +83,11 @@ func TestProjectKeysService_Get(t *testing.T) {
 	client, mux, _, teardown := setup()
 	defer teardown()
 
-	mux.HandleFunc("/api/0/projects/the-interstellar-jurisdiction/pump-station/keys/cfc7b0341c6e4f6ea1a9d256a30dba00", func(w http.ResponseWriter, r *http.Request) {
-		assertMethod(t, "GET", r)
-		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprint(w, `{
+	mux.HandleFunc("/api/0/projects/the-interstellar-jurisdiction/pump-station/keys/cfc7b0341c6e4f6ea1a9d256a30dba00/",
+		func(w http.ResponseWriter, r *http.Request) {
+			assertMethod(t, "GET", r)
+			w.Header().Set("Content-Type", "application/json")
+			fmt.Fprint(w, `{
 			"browserSdk": {
 				"choices": [
 					[
@@ -118,7 +119,7 @@ func TestProjectKeysService_Get(t *testing.T) {
 			"rateLimit": null,
 			"secret": "a07dcd97aa56481f82aeabaed43ca448"
 		}`)
-	})
+		})
 
 	ctx := context.Background()
 	projectKey, _, err := client.ProjectKeys.Get(ctx, "the-interstellar-jurisdiction", "pump-station", "cfc7b0341c6e4f6ea1a9d256a30dba00")
